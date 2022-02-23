@@ -86,3 +86,64 @@ CREATE TABLE IF NOT EXISTS store_has_edition
 CREATE DATABASE IF NOT EXISTS lab03_2;
 USE lab03_2;
 
+CREATE TABLE IF NOT EXISTS child
+(
+    id_child   INT UNSIGNED AUTO_INCREMENT
+        PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name  VARCHAR(255) NOT NULL,
+    ssn        INT UNSIGNED NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS institute
+(
+    id_institute   INT UNSIGNED AUTO_INCREMENT
+        PRIMARY KEY,
+    title          VARCHAR(511) NOT NULL,
+    license_number INT UNSIGNED NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS vaccine
+(
+    id_vaccine   INT UNSIGNED AUTO_INCREMENT
+        PRIMARY KEY,
+    id_institute INT UNSIGNED                 NOT NULL,
+    name         VARCHAR(255)                 NOT NULL,
+    year         YEAR                         NOT NULL,
+    shots_amount TINYINT UNSIGNED DEFAULT '1' NOT NULL,
+    CONSTRAINT vaccine_institute_id_institute_fk
+        FOREIGN KEY (id_institute) REFERENCES institute (id_institute)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS agreement
+(
+    id_agreement INT UNSIGNED AUTO_INCREMENT
+        PRIMARY KEY,
+    id_vaccine   INT UNSIGNED         NOT NULL,
+    id_child     INT UNSIGNED         NOT NULL,
+    date         DATE                 NOT NULL,
+    signed       TINYINT(1) DEFAULT 0 NOT NULL,
+    CONSTRAINT agreement_child_id_child_fk
+        FOREIGN KEY (id_child) REFERENCES child (id_child)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT agreement_vaccine_id_vaccine_fk
+        FOREIGN KEY (id_vaccine) REFERENCES vaccine (id_vaccine)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS shot
+(
+    id_shot    INT UNSIGNED AUTO_INCREMENT
+        PRIMARY KEY,
+    id_vaccine INT UNSIGNED                 NOT NULL,
+    id_child   INT UNSIGNED                 NOT NULL,
+    date       DATE                         NOT NULL,
+    number     TINYINT UNSIGNED DEFAULT '1' NOT NULL,
+    CONSTRAINT shot_child_id_child_fk
+        FOREIGN KEY (id_child) REFERENCES child (id_child)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT shot_vaccine_id_vaccine_fk
+        FOREIGN KEY (id_vaccine) REFERENCES vaccine (id_vaccine)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
