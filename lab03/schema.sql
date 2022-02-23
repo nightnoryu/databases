@@ -97,10 +97,11 @@ CREATE TABLE IF NOT EXISTS child
 
 CREATE TABLE IF NOT EXISTS institute
 (
-    id_institute   INT UNSIGNED AUTO_INCREMENT
+    id_institute    INT UNSIGNED AUTO_INCREMENT
         PRIMARY KEY,
-    title          VARCHAR(511) NOT NULL,
-    license_number INT UNSIGNED NOT NULL
+    title           VARCHAR(511) NOT NULL,
+    license_number  INT UNSIGNED NOT NULL,
+    foundation_year YEAR         NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS vaccine
