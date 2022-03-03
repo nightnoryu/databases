@@ -142,17 +142,36 @@ GROUP BY first_name;
 -- каждого запроса написать комментарий с пояснением, какую информацию
 -- извлекает запрос. Запрос должен быть осмысленным, т.е. находить информацию,
 -- которую можно использовать.
+-- TODO
 
 
 -- 3.9 SELECT JOIN
 
 -- 3.9a LEFT JOIN двух таблиц и WHERE по одному из атрибутов
+-- Flights and corresponding planes
+SELECT p.name, f.start_date, f.end_date
+FROM flight f
+         LEFT JOIN plane p ON f.id_plane = p.id_plane;
 
 -- 3.9b RIGHT JOIN. Получить такую же выборку, как и в 3.9a
+-- Flights and corresponding planes
+SELECT p.name, f.start_date, f.end_date
+FROM plane p
+         RIGHT JOIN flight f ON p.id_plane = f.id_plane;
 
 -- 3.9c LEFT JOIN трех таблиц + WHERE по атрибуту из каждой таблицы
+-- Which male pilot works at the plane named 'Celebration'
+SELECT e.first_name, e.last_name
+FROM plane_has_employee phe
+         LEFT JOIN employee e ON phe.id_employee = e.id_employee AND e.gender = 1
+         LEFT JOIN plane p ON phe.id_plane = p.id_plane AND p.name = 'Celebration'
+WHERE phe.position = 0;
 
 -- 3.9d INNER JOIN двух таблиц
+-- Tickets and their owners
+SELECT t.price, p.first_name, p.last_name
+FROM ticket t
+         INNER JOIN passenger p ON t.id_passenger = p.id_passenger;
 
 
 -- 3.10 Подзапросы

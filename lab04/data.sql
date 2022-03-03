@@ -67,7 +67,14 @@ VALUES ('Analyst', 100, 3000, '2015-11-24'),
        ('Classroom', 90, 2950, '2022-10-20');
 
 INSERT INTO plane_has_employee (id_plane, id_employee, position)
-VALUES (1, 1, 0),
-       (1, 2, 1),
-       (1, 4, 2),
-       (1, 5, 2);
+VALUES (2, 1, 0),
+       (2, 2, 1),
+       (2, 4, 2),
+       (2, 5, 2);
+
+INSERT INTO flight (id_plane, start_date, end_date)
+VALUES (2, '2021-06-07 21:00:00', '2021-06-08 12:00:00'),
+       (3, '2021-01-07 09:30:00', '2021-01-07 20:00:00');
+
+INSERT INTO ticket (id_flight, id_passenger, price, purchase_date)
+    VALUE (5, 12, 250.99, '2021-06-05');
