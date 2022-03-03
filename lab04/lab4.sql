@@ -5,8 +5,8 @@ USE lab04;
 
 -- 3.1a Без указания списка полей
 INSERT INTO passenger
-VALUES (1, 'John', 'Doe', '1989-07-15'),
-       (2, 'Joanne', 'Di', '1995-03-02');
+VALUES (700, 'John', 'Doe', 1, '1989-07-15'),
+       (701, 'Joanne', 'Di', 0, '1995-03-02');
 
 -- 3.1b С указанием списка полей
 INSERT INTO plane (name, capacity, fuel_consumption, adoption_date)
@@ -14,8 +14,10 @@ VALUES ('Thunder', 50, 2500, '1999-03-02'),
        ('Margaret', 100, 3000, '2005-06-15');
 
 -- 3.1c С чтением значения из другой таблицы
-INSERT INTO flight (id_plane, start_date, end_date)
-VALUES ((SELECT id_plane FROM plane ORDER BY id_plane LIMIT 1), '2022-01-14', '2022-01-15');
+INSERT INTO passenger (first_name, last_name, gender, birthdate)
+SELECT first_name, last_name, gender, '1986-01-15'
+FROM employee
+WHERE id_employee = 1;
 
 
 -- 3.2 DELETE
@@ -23,7 +25,7 @@ VALUES ((SELECT id_plane FROM plane ORDER BY id_plane LIMIT 1), '2022-01-14', '2
 -- 3.2a Всех записей
 -- noinspection SqlWithoutWhere
 DELETE
-FROM flight;
+FROM plane_has_employee;
 
 -- 3.2b По условию
 DELETE
@@ -58,7 +60,7 @@ FROM passenger;
 
 -- 3.4b Со всеми атрибутами
 SELECT *
-FROM flight;
+FROM employee;
 
 -- 3.4c С условием по атрибуту
 SELECT *
@@ -77,13 +79,12 @@ LIMIT 5;
 -- 3.5b С сортировкой по убыванию DESC
 SELECT *
 FROM plane
-ORDER BY fuel_consumption DESC
-LIMIT 5;
+ORDER BY capacity DESC;
 
 -- 3.5c С сортировкой по двум атрибутам + ограничение вывода количества записей
 SELECT *
 FROM plane
-ORDER BY fuel_consumption, capacity
+ORDER BY capacity DESC, fuel_consumption
 LIMIT 5;
 
 -- 3.5d С сортировкой по первому атрибуту, из списка извлекаемых
@@ -94,27 +95,27 @@ LIMIT 5;
 
 -- 3.6a WHERE по дате
 SELECT *
-FROM flight
-WHERE start_date = '2022-01-14';
+FROM plane
+WHERE adoption_date = '2016-03-10';
 
 -- 3.6b WHERE дата в диапазоне
 SELECT *
-FROM flight
-WHERE end_date BETWEEN '2021-01-01' AND '2021-12-31';
+FROM passenger
+WHERE birthdate BETWEEN '1970-01-01' AND '1979-12-31';
 
 -- 3.6c Извлечь из таблицы не всю дату, а только год
-SELECT name, YEAR(adoption_date)
+SELECT name, YEAR(adoption_date) AS adoption_year
 FROM plane;
 
 
 -- 3.7 Функции агрегации
 
 -- 3.7a Посчитать количество записей в таблице
-SELECT COUNT(*)
-FROM ticket;
+SELECT COUNT(*) AS amount_of_employees
+FROM employee;
 
 -- 3.7b Посчитать количество уникальных записей в таблице
-SELECT COUNT(DISTINCT first_name)
+SELECT COUNT(DISTINCT first_name) AS amount_of_unique_passengers_names
 FROM passenger;
 
 -- 3.7c Вывести уникальные значения столбца
@@ -122,15 +123,15 @@ SELECT DISTINCT first_name
 FROM passenger;
 
 -- 3.7d Найти максимальное значение столбца
-SELECT name, MAX(capacity)
+SELECT MAX(capacity) AS max_plane_capacity
 FROM plane;
 
 -- 3.7e Найти минимальное значение столбца
-SELECT name, MIN(fuel_consumption)
+SELECT MIN(fuel_consumption) AS min_plane_fuel_consumption
 FROM plane;
 
 -- 3.7f Написать запрос COUNT() + GROUP BY
-SELECT COUNT(*)
+SELECT first_name, COUNT(*) AS occurrences
 FROM passenger
 GROUP BY first_name;
 
