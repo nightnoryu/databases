@@ -88,7 +88,9 @@ ORDER BY capacity DESC, fuel_consumption
 LIMIT 5;
 
 -- 3.5d С сортировкой по первому атрибуту, из списка извлекаемых
--- TODO
+SELECT capacity, name
+FROM plane
+ORDER BY 1;
 
 
 -- 3.6 Работа с датами
@@ -142,7 +144,25 @@ GROUP BY first_name;
 -- каждого запроса написать комментарий с пояснением, какую информацию
 -- извлекает запрос. Запрос должен быть осмысленным, т.е. находить информацию,
 -- которую можно использовать.
--- TODO
+
+-- Capacities of the planes and their average fuel consumptions less than 3500
+SELECT capacity, AVG(fuel_consumption) AS average_fuel_consumption
+FROM plane
+GROUP BY capacity
+HAVING AVG(fuel_consumption) < 3500;
+
+-- Amount of planes having the same capacity
+SELECT capacity, COUNT(*) AS amount
+FROM plane
+GROUP BY capacity
+HAVING COUNT(*) > 1;
+
+-- Overall capacity and fuel consumption of planes adopted between 2017 and 2020 with resulting capacity more than 120
+SELECT SUM(capacity) AS overall_capacity, SUM(fuel_consumption) AS overall_fuel_consumption
+FROM plane
+WHERE YEAR(adoption_date) BETWEEN 2017 AND 2020
+GROUP BY fuel_consumption
+HAVING SUM(capacity) > 120;
 
 
 -- 3.9 SELECT JOIN
@@ -177,9 +197,39 @@ FROM ticket t
 -- 3.10 Подзапросы
 
 -- 3.10a Написать запрос с условием WHERE IN (подзапрос)
+-- Planes witch flew at least once
+SELECT name
+FROM plane
+WHERE id_plane IN (SELECT id_plane FROM flight);
 
 -- 3.10b Написать запрос SELECT atr1, atr2, (подзапрос) FROM ...
+-- Amount of flights each plane had
+SELECT p.name,
+       (
+           SELECT COUNT(*)
+           FROM flight f
+           WHERE p.id_plane = f.id_plane
+       ) AS amount_of_flights
+FROM plane p
+ORDER BY amount_of_flights DESC;
 
 -- 3.10c Написать запрос вида SELECT * FROM (подзапрос)
+-- Planes having names starting with 'C' and capacity more than 60
+SELECT c_planes.name, c_planes.capacity
+FROM (
+         SELECT *
+         FROM plane
+         WHERE LOWER(name) LIKE 'c%'
+     ) c_planes
+WHERE c_planes.capacity > 60;
 
 -- 3.10d Написать запрос вида SELECT * FROM table JOIN (подзапрос) ON ...
+-- Old price and new price with personal discount for each passenger based on their last purchased ticket
+SELECT p.first_name, p.last_name, tp.old AS old_price, tp.new AS new_price
+FROM passenger p
+         INNER JOIN (
+    SELECT t.id_passenger AS id_passenger, t.price AS old, (t.price * 0.8) AS new
+    FROM ticket t
+    ORDER BY purchase_date DESC
+    LIMIT 1
+) tp ON p.id_passenger = tp.id_passenger;

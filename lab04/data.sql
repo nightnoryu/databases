@@ -39,7 +39,7 @@ VALUES ('Howe', 'Richie', '221-56-5328', 1),
        ('Murray', 'Aryanna', '385-08-0120', 0),
        ('Gulgowski', 'Oswald', '480-60-0601', 1),
        ('Kiehn', 'Afton', '418-24-5667', 1),
-       ('Haag', 'Sabrina', '578-07-7824', 0),
+       ('Jane', 'Sabrina', '578-07-7824', 0),
        ('Gutkowski', 'Eryn', '677-09-6866', 0),
        ('Jacobs', 'Leila', '045-64-1366', 0),
        ('Strosin', 'Amalia', '006-66-9895', 0);
