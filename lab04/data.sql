@@ -1,12 +1,12 @@
 USE lab04;
 
-INSERT INTO passenger (first_name, last_name, gender, birthdate)
+INSERT INTO passenger (last_name, first_name, gender, birthdate)
 VALUES ('Ferry', 'Shaniya', 0, '1977-01-30'),
        ('Cartwright', 'Nicolas', 1, '1996-08-13'),
-       ('Roberts', 'Twila', 0, '1974-05-16'),
+       ('Roberts', 'Shaniya', 0, '1974-05-16'),
        ('Mraz', 'Gayle', 1, '1974-01-13'),
        ('Koss', 'Mikayla', 0, '1979-06-14'),
-       ('Collier', 'Troy', 1, '1989-01-22'),
+       ('Collier', 'Santos', 1, '1989-01-22'),
        ('Schinner', 'Natalia', 0, '1996-09-19'),
        ('Gorczany', 'Cyrus', 1, '1971-08-30'),
        ('Dare', 'Chaz', 1, '1974-06-16'),
@@ -17,12 +17,12 @@ VALUES ('Ferry', 'Shaniya', 0, '1977-01-30'),
        ('Rosenbaum', 'Alexanne', 0, '1975-04-21'),
        ('Wisozk', 'Elmo', 1, '1985-06-10'),
        ('Ratke', 'Kirstin', 0, '1971-07-08'),
-       ('Christiansen', 'Mable', 0, '1988-07-23'),
+       ('Christiansen', 'Jessica', 0, '1988-07-23'),
        ('O\'Reilly', 'Newton', 1, '1990-12-17'),
        ('Robel', 'Timothy', 1, '1997-08-28'),
        ('Boyer', 'Corbin', 1, '1996-05-10');
 
-INSERT INTO employee (first_name, last_name, ssn, gender)
+INSERT INTO employee (last_name, first_name, ssn, gender)
 VALUES ('Howe', 'Richie', '221-56-5328', 1),
        ('Bartoletti', 'Emory', '516-28-9906', 1),
        ('Mante', 'Jackson', '675-10-5554', 1),
@@ -43,3 +43,31 @@ VALUES ('Howe', 'Richie', '221-56-5328', 1),
        ('Gutkowski', 'Eryn', '677-09-6866', 0),
        ('Jacobs', 'Leila', '045-64-1366', 0),
        ('Strosin', 'Amalia', '006-66-9895', 0);
+
+INSERT INTO plane (name, capacity, fuel_consumption, adoption_date)
+VALUES ('Analyst', 100, 3000, '2015-11-24'),
+       ('Celebration', 100, 3100, '2015-12-14'),
+       ('Combination', 50, 1250, '2016-03-10'),
+       ('Football', 60, 1500, '2016-03-24'),
+       ('Baseball', 70, 1600, '2016-12-02'),
+       ('Ratio', 65, 1400, '2017-07-12'),
+       ('Chapter', 60, 1600, '2017-10-04'),
+       ('Judgment', 100, 2500, '2017-10-27'),
+       ('Energy', 90, 2000, '2018-05-04'),
+       ('Growth', 120, 3500, '2018-08-22'),
+       ('Currency', 70, 1200, '2018-11-21'),
+       ('Setting', 50, 1650, '2019-02-23'),
+       ('Courage', 5, 800, '2020-02-17'),
+       ('Professor', 40, 1200, '2020-04-22'),
+       ('Protection', 85, 2000, '2020-09-02'),
+       ('Mud', 30, 2500, '2020-09-20'),
+       ('Stranger', 40, 3200, '2021-12-11'),
+       ('Negotiation', 100, 3600, '2022-04-05'),
+       ('Bathroom', 120, 3600, '2022-07-08'),
+       ('Classroom', 90, 2950, '2022-10-20');
+
+INSERT INTO plane_has_employee (id_plane, id_employee, position)
+VALUES (1, 1, 0),
+       (1, 2, 1),
+       (1, 4, 2),
+       (1, 5, 2);
