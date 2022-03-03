@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS plane_has_employee
 (
     id_plane    INT UNSIGNED NOT NULL,
     id_employee INT UNSIGNED NOT NULL,
-    position    TINYINT(1)   NOT NULL,
+    position    TINYINT(1)   NOT NULL, -- 0 - pilot, 1 - pair pilot, 2 - waiter/waitress
     PRIMARY KEY (id_plane, id_employee),
     CONSTRAINT plane_has_employee_employee_id_employee_fk
         FOREIGN KEY (id_employee) REFERENCES employee (id_employee)
