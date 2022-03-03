@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS employee
         PRIMARY KEY,
     first_name  VARCHAR(255) NOT NULL,
     last_name   VARCHAR(255) NOT NULL,
+    gender      TINYINT(1)   NOT NULL,
     ssn         VARCHAR(11)  NOT NULL
 );
 
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS passenger
         PRIMARY KEY,
     first_name   VARCHAR(255) NOT NULL,
     last_name    VARCHAR(255) NOT NULL,
+    gender       TINYINT(1)   NOT NULL,
     birthdate    DATE         NOT NULL
 );
 
