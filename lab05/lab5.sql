@@ -95,4 +95,13 @@ FROM client c
 
 
 -- 9. Добавить необходимые индексы для всех таблиц.
--- TODO
+ALTER TABLE booking
+    ADD INDEX booking_id_client_idx (id_client);
+
+ALTER TABLE room_in_booking
+    ADD INDEX room_in_booking_id_booking_idx (id_booking),
+    ADD INDEX room_in_booking_id_room_idx (id_room);
+
+ALTER TABLE room
+    ADD INDEX room_id_hotel_idx (id_hotel),
+    ADD INDEX room_id_room_category_idx (id_room_category);
