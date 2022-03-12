@@ -64,7 +64,21 @@ GROUP BY rc.name;
 
 -- 6. Продлить на 2 дня дату проживания в гостинице “Космос” всем клиентам комнат
 -- категории “Бизнес”, которые заселились 10 мая.
--- TODO
+UPDATE client c
+    INNER JOIN booking b ON c.id_client = b.id_client
+    INNER JOIN room_in_booking rib ON b.id_booking = rib.id_booking AND rib.checkin_date = '2019-05-10'
+    INNER JOIN room r ON rib.id_room = r.id_room
+    INNER JOIN hotel h ON r.id_hotel = h.id_hotel AND h.name = 'Космос'
+    INNER JOIN room_category rc ON r.id_room_category = rc.id_room_category AND rc.name = 'Бизнес'
+SET rib.checkout_date = DATE_ADD(rib.checkout_date, INTERVAL 2 DAY);
+
+SELECT c.name, rib.checkout_date
+FROM client c
+         INNER JOIN booking b ON c.id_client = b.id_client
+         INNER JOIN room_in_booking rib ON b.id_booking = rib.id_booking AND rib.checkin_date = '2019-05-10'
+         INNER JOIN room r ON rib.id_room = r.id_room
+         INNER JOIN hotel h ON r.id_hotel = h.id_hotel AND h.name = 'Космос'
+         INNER JOIN room_category rc ON r.id_room_category = rc.id_room_category AND rc.name = 'Бизнес';
 
 
 -- 7. Найти все "пересекающиеся" варианты проживания. Правильное состояние: не
