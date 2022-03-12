@@ -28,8 +28,8 @@ ALTER TABLE room_in_booking
 SELECT c.name, c.phone
 FROM client c
          INNER JOIN booking b ON c.id_client = b.id_client
-         INNER JOIN room_in_booking rib ON b.id_booking = rib.id_booking AND rib.checkin_date <= '2019-04-01' AND
-                                           rib.checkout_date >= '2019-04-01'
+         INNER JOIN room_in_booking rib
+                    ON b.id_booking = rib.id_booking AND '2019-04-01' BETWEEN rib.checkin_date AND rib.checkout_date
          INNER JOIN room r ON rib.id_room = r.id_room
          INNER JOIN hotel h ON r.id_hotel = h.id_hotel AND h.name = 'Космос'
          INNER JOIN room_category rc ON r.id_room_category = rc.id_room_category AND rc.name = 'Люкс';
@@ -39,8 +39,8 @@ FROM client c
 -- TODO: duplicated rows
 SELECT h.name, r.number, r.price, rc.name
 FROM room r
-         INNER JOIN room_in_booking rib ON r.id_room = rib.id_room AND NOT (rib.checkin_date <= '2019-04-22' AND
-                                                                            rib.checkout_date >= '2019-04-22')
+         INNER JOIN room_in_booking rib
+                    ON r.id_room = rib.id_room AND NOT ('2019-04-22' BETWEEN rib.checkin_date AND rib.checkout_date)
          INNER JOIN hotel h ON r.id_hotel = h.id_hotel
          INNER JOIN room_category rc ON r.id_room_category = rc.id_room_category;
 
@@ -49,8 +49,8 @@ FROM room r
 SELECT rc.name, COUNT(c.id_client) AS residents_amount
 FROM client c
          INNER JOIN booking b ON c.id_client = b.id_client
-         INNER JOIN room_in_booking rib ON b.id_booking = rib.id_booking AND rib.checkin_date <= '2019-03-23' AND
-                                           rib.checkout_date >= '2019-03-23'
+         INNER JOIN room_in_booking rib
+                    ON b.id_booking = rib.id_booking AND '2019-03-23' BETWEEN rib.checkin_date AND rib.checkout_date
          INNER JOIN room r ON rib.id_room = r.id_room
          INNER JOIN room_category rc ON r.id_room_category = rc.id_room_category
          INNER JOIN hotel h ON r.id_hotel = h.id_hotel AND h.name = 'Космос'
