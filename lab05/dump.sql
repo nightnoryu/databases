@@ -1,4 +1,7 @@
-CREATE TABLE client
+CREATE DATABASE IF NOT EXISTS lab05;
+USE lab05;
+
+CREATE TABLE IF NOT EXISTS client
 (
     id_client INT UNSIGNED AUTO_INCREMENT
         PRIMARY KEY,
@@ -6,7 +9,7 @@ CREATE TABLE client
     phone     VARCHAR(30)  NOT NULL
 );
 
-CREATE TABLE booking
+CREATE TABLE IF NOT EXISTS booking
 (
     id_booking   INT UNSIGNED AUTO_INCREMENT
         PRIMARY KEY,
@@ -17,7 +20,7 @@ CREATE TABLE booking
             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE hotel
+CREATE TABLE IF NOT EXISTS hotel
 (
     id_hotel INT UNSIGNED AUTO_INCREMENT
         PRIMARY KEY,
@@ -25,7 +28,7 @@ CREATE TABLE hotel
     stars    TINYINT(1)   NOT NULL
 );
 
-CREATE TABLE room_category
+CREATE TABLE IF NOT EXISTS room_category
 (
     id_room_category INT UNSIGNED AUTO_INCREMENT
         PRIMARY KEY,
@@ -33,7 +36,7 @@ CREATE TABLE room_category
     square           INT UNSIGNED NOT NULL
 );
 
-CREATE TABLE room
+CREATE TABLE IF NOT EXISTS room
 (
     id_room          INT UNSIGNED AUTO_INCREMENT
         PRIMARY KEY,
@@ -49,7 +52,7 @@ CREATE TABLE room
             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE room_in_booking
+CREATE TABLE IF NOT EXISTS room_in_booking
 (
     id_room_in_booking INT UNSIGNED AUTO_INCREMENT
         PRIMARY KEY,
