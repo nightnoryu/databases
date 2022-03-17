@@ -55,7 +55,13 @@ GROUP BY rc.name;
 
 -- 5. Дать список последних проживавших клиентов по всем комнатам гостиницы “Космос”,
 -- выехавшим в апреле с указанием даты выезда.
--- TODO
+SELECT c.name, r.number, MAX(rib.checkout_date) AS checkout_date
+FROM client c
+         INNER JOIN booking b ON c.id_client = b.id_client
+         INNER JOIN room_in_booking rib ON b.id_booking = rib.id_booking AND MONTH(rib.checkout_date) = 4
+         INNER JOIN room r ON rib.id_room = r.id_room
+         INNER JOIN hotel h ON r.id_hotel = h.id_hotel AND h.name = 'Космос'
+GROUP BY r.number;
 
 
 -- 6. Продлить на 2 дня дату проживания в гостинице “Космос” всем клиентам комнат
