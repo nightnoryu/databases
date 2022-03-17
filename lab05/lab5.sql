@@ -97,7 +97,31 @@ FROM client c
 
 
 -- 8. Создать бронирование в транзакции.
--- TODO
+START TRANSACTION;
+
+SET @client_id = 9;
+SET @checkin_date = '2022-04-22', @checkout_date = '2022-05-22';
+SET @hotel_name = 'Космос', @room_number = 69;
+
+INSERT INTO booking (id_client, booking_date)
+VALUES (@client_id, NOW());
+
+SET @id_booking = (SELECT id_booking
+                   FROM booking
+                   ORDER BY booking_date DESC
+                   LIMIT 1);
+
+SET @id_room = (SELECT r.id_room
+                FROM room r
+                         INNER JOIN hotel h ON r.id_hotel = h.id_hotel AND h.name = @hotel_name
+                WHERE r.number = @room_number
+                LIMIT 1);
+
+INSERT INTO room_in_booking (id_booking, id_room, checkin_date, checkout_date)
+VALUES (@id_booking, @id_room, @checkin_date, @checkout_date);
+
+-- ROLLBACK;
+COMMIT;
 
 
 -- 9. Добавить необходимые индексы для всех таблиц.
