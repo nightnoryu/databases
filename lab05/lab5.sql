@@ -37,7 +37,12 @@ FROM client c
 
 
 -- 3. Дать список свободных номеров всех гостиниц на 22 апреля.
--- TODO
+SELECT DISTINCT h.name AS hotel_name, r.number AS number, rc.name AS category, r.price AS price
+FROM room r
+         RIGHT JOIN room_in_booking rib ON r.id_room = rib.id_room AND
+                                           NOT (rib.checkin_date <= '2019-04-22' AND '2019-04-22' < rib.checkout_date)
+         INNER JOIN hotel h ON r.id_hotel = h.id_hotel
+         INNER JOIN room_category rc ON r.id_room_category = rc.id_room_category;
 
 
 -- 4. Дать количество проживающих в гостинице “Космос” на 23 марта по каждой категории номеров
