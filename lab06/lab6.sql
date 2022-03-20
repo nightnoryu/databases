@@ -62,4 +62,17 @@ WHERE m.id_medicine NOT IN
 
 
 -- 7. Добавить необходимые индексы.
--- TODO
+ALTER TABLE dealer
+    ADD INDEX dealer_id_company_idx (id_company);
+
+ALTER TABLE `order`
+    ADD INDEX order_id_production_idx (id_production),
+    ADD INDEX order_id_dealer_idx (id_dealer),
+    ADD INDEX order_id_pharmacy_idx (id_pharmacy);
+
+ALTER TABLE production
+    ADD INDEX production_id_company_idx (id_company),
+    ADD INDEX production_id_medicine_idx (id_medicine);
+
+ALTER TABLE company
+    ADD INDEX company_name_idx (name);
