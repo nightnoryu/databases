@@ -50,7 +50,17 @@ WHERE m.id_medicine NOT IN
 
 
 -- 4. Дать минимальный и максимальный баллы лекарств каждой фирмы, которая оформила не менее 120 заказов.
--- TODO
+SELECT c.name AS company_name, MIN(p2.rating) AS min_rating, MAX(p2.rating) AS max_rating
+FROM company c
+         INNER JOIN production p2 ON c.id_company = p2.id_company
+WHERE c.id_company IN
+      (SELECT c.id_company
+       FROM company c
+                INNER JOIN production p ON c.id_company = p.id_company
+                INNER JOIN `order` o ON p.id_production = o.id_production
+       GROUP BY c.id_company
+       HAVING COUNT(o.id_order) >= 120)
+GROUP BY c.name;
 
 
 -- 5. Дать списки сделавших заказы аптек по всем дилерам компании “AstraZeneca”. Если у дилера нет заказов, в названии аптеки проставить NULL.
@@ -58,7 +68,18 @@ WHERE m.id_medicine NOT IN
 
 
 -- 6. Уменьшить на 20% стоимость всех лекарств, если она превышает 3000, а длительность лечения не более 7 дней.
--- TODO
+UPDATE medicine m
+    INNER JOIN production p ON m.id_medicine = p.id_medicine
+SET p.price = 0.8 * p.price
+WHERE p.price > 3000
+  AND m.cure_duration <= 7;
+
+SELECT m.name, c.name
+FROM medicine m
+         INNER JOIN production p ON m.id_medicine = p.id_medicine
+         INNER JOIN company c ON p.id_company = c.id_company
+WHERE p.price > 3000
+  AND m.cure_duration <= 7;
 
 
 -- 7. Добавить необходимые индексы.
