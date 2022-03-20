@@ -64,7 +64,11 @@ GROUP BY c.name;
 
 
 -- 5. Дать списки сделавших заказы аптек по всем дилерам компании “AstraZeneca”. Если у дилера нет заказов, в названии аптеки проставить NULL.
--- TODO
+SELECT d.name AS dealer_name, ph.name AS pharmacy_name
+FROM dealer d
+         INNER JOIN company c ON d.id_company = c.id_company AND c.name = 'AstraZeneca'
+         LEFT JOIN `order` o ON d.id_dealer = o.id_dealer
+         LEFT JOIN pharmacy ph ON o.id_pharmacy = ph.id_pharmacy;
 
 
 -- 6. Уменьшить на 20% стоимость всех лекарств, если она превышает 3000, а длительность лечения не более 7 дней.
