@@ -56,4 +56,8 @@ ALTER TABLE student
 
 
 -- 7. Добавить необходимые индексы.
--- TODO
+ALTER TABLE subject
+    ADD INDEX subject_name_idx (name);
+
+ALTER TABLE `group`
+    ADD INDEX group_name_idx (name);
