@@ -37,16 +37,12 @@ FROM `order` o
 
 
 -- 3. Дать список лекарств компании “Фарма”, на которые не были сделаны заказы до 25 января
-SELECT m.name
+SELECT DISTINCT m.name
 FROM medicine m
-         INNER JOIN production p2 ON m.id_medicine = p2.id_medicine
-         INNER JOIN company c2 ON p2.id_company = c2.id_company AND c2.name = 'Фарма'
-WHERE m.id_medicine NOT IN
-      (SELECT m.id_medicine
-       FROM medicine m
-                INNER JOIN production p ON m.id_medicine = p.id_medicine
-                INNER JOIN company c ON p.id_company = c.id_company AND c.name = 'Фарма'
-                INNER JOIN `order` o ON p.id_production = o.id_production AND o.date < '2019-01-25');
+         INNER JOIN production p ON m.id_medicine = p.id_medicine
+         INNER JOIN company c ON p.id_company = c.id_company AND c.name = 'Фарма'
+         LEFT JOIN `order` o ON p.id_production = o.id_production AND o.date < '2019-01-25'
+WHERE o.id_order IS NULL;
 
 
 -- 4. Дать минимальный и максимальный баллы лекарств каждой фирмы, которая оформила не менее 120 заказов.
