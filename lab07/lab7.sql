@@ -29,7 +29,16 @@ ALTER TABLE student
 
 -- 2. Выдать оценки студентов по информатике если они обучаются данному
 -- предмету. Оформить выдачу данных с использованием view.
--- TODO
+CREATE VIEW informatics_marks AS
+SELECT st.name AS student_name, m.mark AS mark
+FROM student st
+         INNER JOIN mark m ON st.id_student = m.id_student
+         INNER JOIN lesson l ON m.id_lesson = l.id_lesson
+         INNER JOIN subject sj ON l.id_subject = sj.id_subject AND sj.name = 'Информатика'
+ORDER BY 1;
+
+SELECT *
+FROM informatics_marks;
 
 
 -- 3. Дать информацию о должниках с указанием фамилии студента и названия
@@ -47,7 +56,13 @@ ALTER TABLE student
 -- 5. Дать оценки студентов специальности ВМ по всем проводимым предметам с
 -- указанием группы, фамилии, предмета, даты. При отсутствии оценки заполнить
 -- значениями NULL поля оценки.
--- TODO
+SELECT st.name AS student, sj.name AS subject, l.date AS date, m.mark AS mark
+FROM student st
+         INNER JOIN `group` g ON st.id_group = g.id_group AND g.name = 'ВМ'
+         LEFT JOIN mark m ON st.id_student = m.id_student
+         LEFT JOIN lesson l ON m.id_lesson = l.id_lesson AND g.id_group = l.id_group
+         LEFT JOIN subject sj ON l.id_subject = sj.id_subject
+ORDER BY 1;
 
 
 -- 6. Всем студентам специальности ПС, получившим оценки меньшие 5 по предмету
@@ -68,8 +83,14 @@ WHERE m.mark < 5;
 
 
 -- 7. Добавить необходимые индексы.
-ALTER TABLE subject
-    ADD INDEX subject_name_idx (name);
-
+-- Запросы: 5, 6
 ALTER TABLE `group`
     ADD INDEX group_name_idx (name);
+
+-- Запросы: 6
+ALTER TABLE lesson
+    ADD INDEX lesson_date_idx (date);
+
+-- Запросы: 2, 6
+ALTER TABLE subject
+    ADD INDEX subject_name_idx (name);
