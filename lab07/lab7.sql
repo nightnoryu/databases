@@ -52,7 +52,19 @@ ALTER TABLE student
 
 -- 6. Всем студентам специальности ПС, получившим оценки меньшие 5 по предмету
 -- БД до 12.05, повысить эти оценки на 1 балл.
--- TODO
+UPDATE mark m
+    INNER JOIN lesson l ON m.id_lesson = l.id_lesson AND l.date < '2019-05-12'
+    INNER JOIN subject s ON l.id_subject = s.id_subject AND s.name = 'БД'
+    INNER JOIN `group` g ON l.id_group = g.id_group AND g.name = 'ПС'
+SET m.mark = m.mark - 1;
+
+SELECT st.name, m.mark, l.date
+FROM mark m
+         INNER JOIN lesson l ON m.id_lesson = l.id_lesson AND l.date < '2019-05-12'
+         INNER JOIN subject sj ON l.id_subject = sj.id_subject AND sj.name = 'БД'
+         INNER JOIN student st ON m.id_student = st.id_student
+         INNER JOIN `group` g ON l.id_group = g.id_group AND g.name = 'ПС'
+WHERE m.mark < 5;
 
 
 -- 7. Добавить необходимые индексы.
