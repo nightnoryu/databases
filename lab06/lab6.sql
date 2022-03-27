@@ -87,11 +87,19 @@ WHERE p.price > 3000
 
 
 -- 7. Добавить необходимые индексы.
+-- Для запросов: 2, 3, 5
 ALTER TABLE company
     ADD INDEX company_name_idx (name);
 
+-- Для запросов: 2, 6
+ALTER TABLE medicine
+    ADD INDEX medicine_cure_duration_idx (cure_duration),
+    ADD INDEX medicine_name_idx (name);
+
+-- Для запроса 6
 ALTER TABLE production
     ADD INDEX production_price_idx (price);
 
+-- Для запроса 3
 ALTER TABLE `order`
     ADD INDEX order_date_idx (date);
