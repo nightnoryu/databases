@@ -29,6 +29,8 @@ ALTER TABLE student
 
 -- 2. Выдать оценки студентов по информатике если они обучаются данному
 -- предмету. Оформить выдачу данных с использованием view.
+DROP VIEW IF EXISTS informatics_marks;
+
 CREATE VIEW informatics_marks AS
 SELECT st.name AS student_name, m.mark AS mark
 FROM student st
@@ -45,7 +47,14 @@ FROM informatics_marks;
 -- предмета. Должниками считаются студенты, не имеющие оценки по предмету,
 -- который ведется в группе. Оформить в виде процедуры, на входе
 -- идентификатор группы.
--- TODO
+DROP PROCEDURE IF EXISTS get_dummy_students;
+
+CREATE PROCEDURE get_dummy_students(IN group_name VARCHAR(10))
+BEGIN
+    -- TODO
+END;
+
+CALL get_dummy_students('ПС');
 
 
 -- 4. Дать среднюю оценку студентов по каждому предмету для тех предметов, по
