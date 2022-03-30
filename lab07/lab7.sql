@@ -51,7 +51,13 @@ DROP PROCEDURE IF EXISTS get_dummy_students;
 
 CREATE PROCEDURE get_dummy_students(IN group_name VARCHAR(10))
 BEGIN
-    -- TODO
+    SELECT DISTINCT st.name, sj.name
+    FROM student st
+             INNER JOIN `group` g ON st.id_group = g.id_group AND g.name = group_name
+             INNER JOIN lesson l ON g.id_group = l.id_group
+             INNER JOIN subject sj ON l.id_subject = sj.id_subject
+             LEFT JOIN mark m ON st.id_student = m.id_student AND l.id_lesson = m.id_lesson
+    WHERE m.id_mark IS NULL;
 END;
 
 CALL get_dummy_students('ПС');
