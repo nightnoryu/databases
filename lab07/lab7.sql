@@ -59,7 +59,24 @@ CALL get_dummy_students('ПС');
 
 -- 4. Дать среднюю оценку студентов по каждому предмету для тех предметов, по
 -- которым занимается не менее 35 студентов.
--- TODO
+WITH required_subject (id_subject, name)
+         AS
+         (
+             SELECT sj.id_subject, sj.name
+             FROM subject sj
+                      INNER JOIN lesson l ON sj.id_subject = l.id_subject
+                      INNER JOIN student st ON l.id_group = st.id_group
+             GROUP BY 1
+             HAVING COUNT(DISTINCT st.id_student) > 35
+         )
+SELECT st.name AS student, sj.name AS subject, ROUND(AVG(m.mark), 2) AS average_mark
+FROM required_subject sj
+         INNER JOIN lesson l ON sj.id_subject = l.id_subject
+         INNER JOIN `group` g ON l.id_group = g.id_group
+         INNER JOIN student st ON g.id_group = st.id_group
+         INNER JOIN mark m ON l.id_lesson = m.id_lesson AND st.id_student = m.id_student
+GROUP BY sj.name, st.name
+ORDER BY 1;
 
 
 -- 5. Дать оценки студентов специальности ВМ по всем проводимым предметам с
