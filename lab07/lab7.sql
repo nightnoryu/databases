@@ -73,7 +73,7 @@ WITH required_subject (id_subject, name)
                       INNER JOIN lesson l ON sj.id_subject = l.id_subject
                       INNER JOIN student st ON l.id_group = st.id_group
              GROUP BY 1
-             HAVING COUNT(DISTINCT st.id_student) > 35
+             HAVING COUNT(DISTINCT st.id_student) >= 35
          )
 SELECT st.name AS student, sj.name AS subject, ROUND(AVG(m.mark), 2) AS average_mark
 FROM required_subject sj
@@ -91,9 +91,9 @@ ORDER BY 1;
 SELECT st.name AS student, sj.name AS subject, l.date AS date, m.mark AS mark
 FROM student st
          INNER JOIN `group` g ON st.id_group = g.id_group AND g.name = 'ВМ'
-         LEFT JOIN mark m ON st.id_student = m.id_student
-         LEFT JOIN lesson l ON m.id_lesson = l.id_lesson AND g.id_group = l.id_group
-         LEFT JOIN subject sj ON l.id_subject = sj.id_subject
+         INNER JOIN lesson l ON g.id_group = l.id_group
+         INNER JOIN subject sj ON l.id_subject = sj.id_subject
+         LEFT JOIN mark m ON st.id_student = m.id_student AND l.id_lesson = m.id_lesson
 ORDER BY 1;
 
 
@@ -103,7 +103,8 @@ UPDATE mark m
     INNER JOIN lesson l ON m.id_lesson = l.id_lesson AND l.date < '2019-05-12'
     INNER JOIN subject sj ON l.id_subject = sj.id_subject AND sj.name = 'БД'
     INNER JOIN `group` g ON l.id_group = g.id_group AND g.name = 'ПС'
-SET m.mark = m.mark - 1;
+SET m.mark = m.mark + 1
+WHERE m.mark < 5;
 
 SELECT st.name, m.mark, l.date
 FROM mark m
