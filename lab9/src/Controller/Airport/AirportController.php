@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Airport;
 
 use App\Module\Airport\App\AirportServiceInterface;
+use App\Module\Airport\App\Query\AirportQueryServiceInterface;
 use DateTimeImmutable;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,10 +14,14 @@ use Symfony\Component\HttpFoundation\Response;
 class AirportController extends AbstractController
 {
     private AirportServiceInterface $airportService;
+    private AirportQueryServiceInterface $airportQueryService;
 
-    public function __construct(AirportServiceInterface $airportService)
-    {
+    public function __construct(
+        AirportServiceInterface $airportService,
+        AirportQueryServiceInterface $airportQueryService
+    ) {
         $this->airportService = $airportService;
+        $this->airportQueryService = $airportQueryService;
     }
 
     /**
@@ -100,7 +105,12 @@ class AirportController extends AbstractController
         $parameters = json_decode($request->getContent(), true);
         $birthDate = new DateTimeImmutable($parameters['birth_date']);
 
-        $this->airportService->addPassenger($parameters['first_name'], $parameters['last_name'], $parameters['gender'], $birthDate);
+        $this->airportService->addPassenger(
+            $parameters['first_name'],
+            $parameters['last_name'],
+            $parameters['gender'],
+            $birthDate
+        );
 
         return new Response();
     }
@@ -146,8 +156,21 @@ class AirportController extends AbstractController
         $parameters = json_decode($request->getContent(), true);
         $purchaseDate = new DateTimeImmutable($parameters['purchase_date']);
 
-        $this->airportService->addTicket($parameters['flight_id'], $parameters['passenger_id'], $parameters['class'], $parameters['priceMultiplier'], $purchaseDate);
+        $this->airportService->addTicket(
+            $parameters['flight_id'],
+            $parameters['passenger_id'],
+            $parameters['class'],
+            $parameters['priceMultiplier'],
+            $purchaseDate
+        );
 
         return new Response();
+    }
+
+    public function findTicketsByPassengerName(Request $request): Response
+    {
+        $tickets = $this->airportQueryService->findTicketsByPassengerName($request->get('name'));
+
+        return new Response(json_encode($tickets, JSON_THROW_ON_ERROR));
     }
 }

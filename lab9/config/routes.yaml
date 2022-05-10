@@ -1,17 +1,22 @@
 add_flight:
     path: /airport/api/flight
-    controller: App\Controller\Airport\AirportController::addFlight
     methods: POST
+    controller: App\Controller\Airport\AirportController::addFlight
 
 add_passenger:
     path: /airport/api/passenger
-    controller: App\Controller\Airport\AirportController::addPassenger
     methods: POST
+    controller: App\Controller\Airport\AirportController::addPassenger
 
 add_ticket:
     path: /airport/api/ticket
-    controller: App\Controller\Airport\AirportController::addTicket
     methods: POST
+    controller: App\Controller\Airport\AirportController::addTicket
+
+find_tickets_by_passenger_name:
+    path: /airport/api/tickets/{name}
+    methods: GET
+    controller: App\Controller\Airport\AirportController::findTicketsByPassengerName
 
 app.swagger_ui:
     path: /airport/api/docs
