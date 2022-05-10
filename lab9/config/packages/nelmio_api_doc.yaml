@@ -1,0 +1,9 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Airport
+            description: Airport management app
+            version: 1.0.0
+    areas:
+        default:
+            path_patterns: [ ^/airport/api(?!/docs$) ]

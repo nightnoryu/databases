@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Module\Airport\Domain\Passenger" table="passenger">
+        <id name="id" type="integer" column="id">
+            <generator/>
+        </id>
+
+        <field name="firstName" type="string" column="first_name"/>
+        <field name="lastName" type="string" column="last_name"/>
+        <field name="gender" type="boolean" column="gender"/>
+        <field name="birthDate" type="datetime_immutable" column="birth_date"/>
+
+        <one-to-many
+                field="tickets"
+                target-entity="App\Module\Airport\Domain\Ticket"
+                mapped-by="passenger"/>
+    </entity>
+</doctrine-mapping>

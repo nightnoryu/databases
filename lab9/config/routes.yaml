@@ -1,7 +1,19 @@
-controllers:
-    resource: ../src/Controller/
-    type: annotation
+add_flight:
+    path: /airport/api/flight
+    controller: App\Controller\Airport\AirportController::addFlight
+    methods: POST
 
-kernel:
-    resource: ../src/Kernel.php
-    type: annotation
+add_passenger:
+    path: /airport/api/passenger
+    controller: App\Controller\Airport\AirportController::addPassenger
+    methods: POST
+
+add_ticket:
+    path: /airport/api/ticket
+    controller: App\Controller\Airport\AirportController::addTicket
+    methods: POST
+
+app.swagger_ui:
+    path: /airport/api/docs
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }

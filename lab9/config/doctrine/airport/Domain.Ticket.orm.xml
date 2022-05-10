@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Module\Airport\Domain\Ticket" table="ticket">
+        <id name="id" type="integer" column="id">
+            <generator/>
+        </id>
+
+        <field name="class" type="string" column="class"/>
+        <field name="priceMultiplier" type="float" column="price_multiplier"/>
+        <field name="purchaseDate" type="datetime_immutable" column="purchase_date"/>
+
+        <many-to-one
+                field="flight"
+                target-entity="App\Module\Airport\Domain\Flight"
+                inversed-by="tickets">
+            <join-column name="id_flight" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+
+        <many-to-one
+                field="passenger"
+                target-entity="App\Module\Airport\Domain\Passenger"
+                inversed-by="tickets">
+            <join-column name="id_passenger" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

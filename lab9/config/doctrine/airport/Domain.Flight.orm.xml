@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Module\Airport\Domain\Flight" table="flight">
+        <id name="id" type="integer" column="id">
+            <generator/>
+        </id>
+
+        <field name="startDate" type="datetime_immutable" column="start_date"/>
+        <field name="endDate" type="datetime_immutable" column="end_date"/>
+        <field name="seatsAmount" type="integer" column="seats_amount"/>
+        <field name="price" type="float" column="price"/>
+
+        <one-to-many
+                field="tickets"
+                target-entity="App\Module\Airport\Domain\Ticket"
+                mapped-by="flight"/>
+    </entity>
+</doctrine-mapping>
