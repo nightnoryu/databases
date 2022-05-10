@@ -167,6 +167,66 @@ class AirportController extends AbstractController
         return new Response();
     }
 
+    /**
+     * @OA\Patch(
+     *     path="/airport/api/ticket/{ticket_id}",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="class",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="priceMultiplier",
+     *                 type="double"
+     *             ),
+     *             @OA\Property(
+     *                 property="purchase_date",
+     *                 type="string",
+     *                 format="date"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success response"
+     *     )
+     * )
+     */
+    public function updateTicket(Request $request): Response
+    {
+        $parameters = json_decode($request->getContent(), true);
+
+        $purchaseDate = null;
+        if (isset($parameters['purchase_date']))
+        {
+            $purchaseDate = new DateTimeImmutable($parameters['purchase_date']);
+        }
+
+        $priceMultiplier = null;
+        if (isset($parameters['price_multiplier']))
+        {
+            $priceMultiplier = (float)$parameters['price_multiplier'];
+        }
+
+        $this->airportService->updateTicket(
+            (int)$request->get('ticket_id'),
+            $parameters['class'] ?? null,
+            $priceMultiplier,
+            $purchaseDate,
+        );
+
+        return new Response();
+    }
+
+    public function removeTicket(Request $request): Response
+    {
+        $this->airportService->removeTicket((int)$request->get('ticket_id'));
+        return new Response();
+    }
+
     public function findTicketsByPassengerName(Request $request): Response
     {
         $tickets = $this->airportQueryService->findTicketsByPassengerName($request->get('name'));

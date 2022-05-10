@@ -13,6 +13,20 @@ add_ticket:
     methods: POST
     controller: App\Controller\Airport\AirportController::addTicket
 
+update_ticket:
+    path: /airport/api/ticket/{ticket_id}
+    methods: PATCH
+    controller: App\Controller\Airport\AirportController::updateTicket
+    requirements:
+        ticket_id: '\d+'
+
+remove_ticket:
+    path: /airport/api/ticket/{ticket_id}
+    methods: DELETE
+    controller: App\Controller\Airport\AirportController::removeTicket
+    requirements:
+        ticket_id: '\d+'
+
 find_tickets_by_passenger_name:
     path: /airport/api/tickets/{name}
     methods: GET

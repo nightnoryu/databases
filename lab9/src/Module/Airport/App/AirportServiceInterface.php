@@ -5,6 +5,7 @@ namespace App\Module\Airport\App;
 
 use App\Module\Airport\App\Exception\FlightNotFoundException;
 use App\Module\Airport\App\Exception\PassengerNotFoundException;
+use App\Module\Airport\App\Exception\TicketNotFoundException;
 use DateTimeImmutable;
 
 interface AirportServiceInterface
@@ -29,4 +30,19 @@ interface AirportServiceInterface
         float $priceMultiplier,
         DateTimeImmutable $purchaseDate
     ): void;
+
+    /**
+     * @throws TicketNotFoundException
+     */
+    public function updateTicket(
+        int $ticketId,
+        ?string $class,
+        ?float $priceMultiplier,
+        ?DateTimeImmutable $purchaseDate
+    ): void;
+
+    /**
+     * @throws TicketNotFoundException
+     */
+    public function removeTicket(int $ticketId): void;
 }

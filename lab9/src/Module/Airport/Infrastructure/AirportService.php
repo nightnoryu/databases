@@ -6,6 +6,7 @@ namespace App\Module\Airport\Infrastructure;
 use App\Module\Airport\App\AirportServiceInterface;
 use App\Module\Airport\App\Exception\FlightNotFoundException;
 use App\Module\Airport\App\Exception\PassengerNotFoundException;
+use App\Module\Airport\App\Exception\TicketNotFoundException;
 use App\Module\Airport\Domain\Flight;
 use App\Module\Airport\Domain\Passenger;
 use App\Module\Airport\Domain\Ticket;
@@ -50,12 +51,14 @@ class AirportService implements AirportServiceInterface
         float $priceMultiplier,
         DateTimeImmutable $purchaseDate
     ): void {
+        /** @var Flight $flight */
         $flight = $this->doctrine->getRepository(Flight::class)->find($flightId);
         if ($flight === null)
         {
             throw new FlightNotFoundException();
         }
 
+        /** @var Passenger $passenger */
         $passenger = $this->doctrine->getRepository(Passenger::class)->find($passengerId);
         if ($passenger === null)
         {
@@ -66,6 +69,50 @@ class AirportService implements AirportServiceInterface
 
         $entityManager = $this->doctrine->getManager();
         $entityManager->persist($ticket);
+        $entityManager->flush();
+    }
+
+    public function updateTicket(
+        int $ticketId,
+        ?string $class,
+        ?float $priceMultiplier,
+        ?DateTimeImmutable $purchaseDate
+    ): void {
+        /** @var Ticket $ticket */
+        $ticket = $this->doctrine->getRepository(Ticket::class)->find($ticketId);
+        if ($ticket === null)
+        {
+            throw new TicketNotFoundException();
+        }
+
+        if ($class !== null)
+        {
+            $ticket->setClass($class);
+        }
+        if ($priceMultiplier !== null)
+        {
+            $ticket->setPriceMultiplier($priceMultiplier);
+        }
+        if ($purchaseDate !== null)
+        {
+            $ticket->setPurchaseDate($purchaseDate);
+        }
+
+        $entityManager = $this->doctrine->getManager();
+        $entityManager->persist($ticket);
+        $entityManager->flush();
+    }
+
+    public function removeTicket(int $ticketId): void
+    {
+        $ticket = $this->doctrine->getRepository(Ticket::class)->find($ticketId);
+        if ($ticket === null)
+        {
+            throw new TicketNotFoundException();
+        }
+
+        $entityManager = $this->doctrine->getManager();
+        $entityManager->remove($ticket);
         $entityManager->flush();
     }
 }
