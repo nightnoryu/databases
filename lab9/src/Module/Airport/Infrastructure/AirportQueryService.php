@@ -41,4 +41,20 @@ class AirportQueryService implements AirportQueryServiceInterface
 
         return $result;
     }
+
+    public function getAmountOfTicketsForFlight(int $flightId): int
+    {
+        $conn = $this->entityManager->getConnection();
+
+        $sql = 'SELECT COUNT(t.id)
+                FROM flight f
+                    INNER JOIN ticket t ON f.id = t.id_flight
+                GROUP BY f.id;
+        ';
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        return $resultSet->fetchOne();
+    }
 }

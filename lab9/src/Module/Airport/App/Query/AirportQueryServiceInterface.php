@@ -11,4 +11,6 @@ interface AirportQueryServiceInterface
      * @return TicketData[]
      */
     public function findTicketsByPassengerName(string $name): array;
+
+    public function getAmountOfTicketsForFlight(int $flightId): int;
 }

@@ -173,4 +173,12 @@ class AirportController extends AbstractController
 
         return new Response(json_encode($tickets, JSON_THROW_ON_ERROR));
     }
+
+    public function getAmountOfTicketsForFlight(Request $request): Response
+    {
+        $amount = $this->airportQueryService->getAmountOfTicketsForFlight((int)$request->get('flight_id'));
+        $result = ['amount' => $amount];
+
+        return new Response(json_encode($result, JSON_THROW_ON_ERROR));
+    }
 }

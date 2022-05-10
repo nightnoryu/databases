@@ -18,6 +18,13 @@ find_tickets_by_passenger_name:
     methods: GET
     controller: App\Controller\Airport\AirportController::findTicketsByPassengerName
 
+get_amount_of_tickets_for_flight:
+    path: /airport/api/tickets/amount/{flight_id}
+    methods: GET
+    controller: App\Controller\Airport\AirportController::getAmountOfTicketsForFlight
+    requirements:
+        flight_id: '\d+'
+
 app.swagger_ui:
     path: /airport/api/docs
     methods: GET
