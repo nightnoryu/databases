@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Module\Airport\App;
+namespace App\Module\Airport\Infrastructure;
 
+use App\Module\Airport\App\AirportServiceInterface;
 use App\Module\Airport\App\Exception\FlightNotFoundException;
 use App\Module\Airport\App\Exception\PassengerNotFoundException;
 use App\Module\Airport\Domain\Flight;
