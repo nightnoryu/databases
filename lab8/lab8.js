@@ -6,12 +6,13 @@ db.flight.remove({});
 
 
 // 3.1 Отобразить коллекции базы данных
+print("Отобразить коллекции базы данных");
 print(db.getCollectionNames());
 
 
 // 3.2 Вставка записей
 
-// • Вставка одной записи insertOne
+// Вставка одной записи insertOne
 db.flight.insertOne({
   start_date: "2022-01-02",
   end_date: "2022-01-03",
@@ -45,7 +46,7 @@ db.flight.insertOne({
   ]
 });
 
-// • Вставка нескольких записей insertMany
+// Вставка нескольких записей insertMany
 db.flight.insertMany([
   {
     start_date: "2022-02-02",
@@ -120,25 +121,29 @@ db.flight.insertMany([
 
 // 3.3 Удаление записей
 
-// • Удаление одной записи по условию deleteOne
+// Удаление одной записи по условию deleteOne
 // db.flight.deleteOne({ end_date: "2022-05-07" });
 
-// • Удаление нескольких записей по условию deleteMany
+// Удаление нескольких записей по условию deleteMany
 // db.flight.deleteMany({ price: 300 });
 
 
 // 3.4 Поиск записей
 
-// • Поиск по ID
+// Поиск по ID
+print("Поиск по ID");
 printjson(db.flight.findOne({ _id: ObjectId("62795d12a79c32d43db05da1") }));
 
-// • Поиск записи по атрибуту первого уровня
+// Поиск записи по атрибуту первого уровня
+print("Поиск записи по атрибуту первого уровня");
 printjson(db.flight.findOne({ price: 150 }));
 
-// • Поиск записи по вложенному атрибуту
+// Поиск записи по вложенному атрибуту
+print("Поиск записи по вложенному атрибуту");
 printjson(db.flight.findOne({ "plane.title": "Kathra'natir" }));
 
-// • Поиск записи по нескольким атрибутам (логический оператор AND)
+// Поиск записи по нескольким атрибутам (логический оператор AND)
+print("Поиск записи по нескольким атрибутам (логический оператор AND)");
 printjson(db.flight.findOne({
   "$and": [
     { "plane.title": "Kathra'natir" },
@@ -146,7 +151,8 @@ printjson(db.flight.findOne({
   ]
 }));
 
-// • Поиск записи по одному из условий (логический оператор OR)
+// Поиск записи по одному из условий (логический оператор OR)
+print("Поиск записи по одному из условий (логический оператор OR)");
 printjson(db.flight.findOne({
   "$or": [
     { "plane.title": "Insatiable Ur'zul" },
@@ -154,17 +160,20 @@ printjson(db.flight.findOne({
   ]
 }));
 
-// • Поиск с использованием оператора сравнения
+// Поиск с использованием оператора сравнения
+print("Поиск с использованием оператора сравнения");
 db.flight.find({
   price: { "$gt": 200 }
 }).forEach(printjson);
 
-// • Поиск с использованием двух операторов сравнения
+// Поиск с использованием двух операторов сравнения
+print("Поиск с использованием двух операторов сравнения");
 db.flight.find({
   price: { "$gt": 100, "$lt": 350 }
 }).forEach(printjson);
 
-// • Поиск по значению в массиве
+// Поиск по значению в массиве
+print("Поиск по значению в массиве");
 db.flight.find({
   passengers: {
     "$elemMatch": {
@@ -173,12 +182,14 @@ db.flight.find({
   }
 }).forEach(printjson);
 
-// • Поиск по количеству элементов в массиве
+// Поиск по количеству элементов в массиве
+print("Поиск по количеству элементов в массиве");
 db.flight.find({
   passengers: { "$size": 2 }
 }).forEach(printjson);
 
-// • Поиск записей без атрибута
+// Поиск записей без атрибута
+print("Поиск записей без атрибута");
 db.flight.find({
   "plane.fuel_consumption": { "$exists": false }
 }).forEach(printjson);
@@ -186,8 +197,20 @@ db.flight.find({
 
 // 3.5 Обновление записей
 
-// • Изменить значение атрибута у записи
+// Изменить значение атрибута у записи
+db.flight.updateOne(
+  { "plane.title": "Kathra'natir" },
+  { "$set": { price: 280 } }
+);
 
-// • Удалить атрибут у записи
+// Удалить атрибут у записи
+db.flight.updateOne(
+  { end_date: "2022-02-04" },
+  { "$unset": { "plane.fuel_consumption": 0 } }
+);
 
-// • Добавить атрибут записи
+// Добавить атрибут записи
+db.flight.updateMany(
+  {},
+  { "$set": { "plane.isAwesome": true } }
+);
