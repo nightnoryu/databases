@@ -49,12 +49,11 @@ class AirportQueryService implements AirportQueryServiceInterface
         $sql = 'SELECT COUNT(t.id)
                 FROM flight f
                     INNER JOIN ticket t ON f.id = t.id_flight
+                WHERE f.id = :flightId
                 GROUP BY f.id;
         ';
 
         $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery();
-
-        return $resultSet->fetchOne();
+        return (int)$stmt->executeQuery(['flightId' => $flightId])->fetchOne();
     }
 }
