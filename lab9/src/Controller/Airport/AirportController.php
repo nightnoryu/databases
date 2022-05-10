@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Controller\Airport;
 
 use App\Module\Airport\App\AirportServiceInterface;
+use DateTimeImmutable;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AirportController extends AbstractController
@@ -50,9 +52,15 @@ class AirportController extends AbstractController
      *     )
      * )
      */
-    public function addFlight(): Response
+    public function addFlight(Request $request): Response
     {
-        return new Response('flight');
+        $parameters = json_decode($request->getContent(), true);
+        $startDate = new DateTimeImmutable($parameters['start_date']);
+        $endDate = new DateTimeImmutable($parameters['end_date']);
+
+        $this->airportService->addFlight($startDate, $endDate, $parameters['seats_amount'], $parameters['price']);
+
+        return new Response();
     }
 
     /**
@@ -87,9 +95,14 @@ class AirportController extends AbstractController
      *     )
      * )
      */
-    public function addPassenger(): Response
+    public function addPassenger(Request $request): Response
     {
-        return new Response('passenger');
+        $parameters = json_decode($request->getContent(), true);
+        $birthDate = new DateTimeImmutable($parameters['birth_date']);
+
+        $this->airportService->addPassenger($parameters['first_name'], $parameters['last_name'], $parameters['gender'], $birthDate);
+
+        return new Response();
     }
 
     /**
@@ -128,8 +141,13 @@ class AirportController extends AbstractController
      *     )
      * )
      */
-    public function addTicket(): Response
+    public function addTicket(Request $request): Response
     {
-        return new Response('ticket');
+        $parameters = json_decode($request->getContent(), true);
+        $purchaseDate = new DateTimeImmutable($parameters['purchase_date']);
+
+        $this->airportService->addTicket($parameters['flight_id'], $parameters['passenger_id'], $parameters['class'], $parameters['priceMultiplier'], $purchaseDate);
+
+        return new Response();
     }
 }
